@@ -1,25 +1,14 @@
-hook.Add("GS_Console", "GS Console Message Color", function(objet)
-    
-end)
-
-
-
-
-/*
-local function HeadAddons(Objet, Version)
+local function HeadAddons(Objet)
     MsgC( Color( 255, 0, 0), "Chargement : " )
-    MsgC( Color( 140, 0, 255), Objet.Addons )
+    MsgC( Color( 140, 0, 255), Objet.main )
     MsgC( Color( 255, 255, 255), " - Version " )
-    MsgC( Color( 255, 0, 0), Version )
+    MsgC( Color( 255, 0, 0), Objet:GetLastNumberUPT() )
     MsgC( Color( 255, 255, 255), " -" )
     MsgC( Color( 255, 153, 0), " by Finnwinch!\n" )
 end
-
-local function ConfigAddonsListe()
+local function ConfigAddonsListe(Objet)
     MsgC( Color( 68, 255, 0), "Liste de configuration :\n" )
-    for parametre, valeur in pairs(objet) do
-        if type(valeur) == "table" && parametre == "Version" then continue end
-        
+    for parametre, valeur in pairs(Objet.cfg) do
         if type(valeur) == "boolean" then
             if valeur then
                 valeur = "Activer" else valeur = "Désactiver"
@@ -47,30 +36,17 @@ local function ConfigAddonsListe()
         end
     end
 end
-
-local function GetLastUpdate()
-    local control = 0
-    for version in pairs(objet.Version) do
-        if tonumber(version) > tonumber(control) then   // need te rewrite
-            control = version
-        end
-    end
-    local last_update = tostring(control)
-    return last_update
-end
-
-local function UpdateLastListe()
-    local last_update = GetLastUpdate()
+local function UpdateLastListe(Objet)
     MsgC( Color( 68, 255, 0), "Dernière Mise a jour :\n" )
-    MsgC( Color( 255, 255, 255), objet.Version[last_update] )
+    MsgC( Color( 255, 255, 255), Objet:GetLastUPT() )
     MsgC( Color( 255, 255, 255), "\n" )
 end
-local function ConsoleMessage(Objet)
-    HeadAddons(Objet, GetLastUpdate())
-    ConfigAddonsListe()
-    UpdateLastListe()
-    if objet.Warning then MsgC( Color( 255, 153, 0), "\n[Disclaimer]\nthis addons is designed for humorous purposes only with dark humor, please don't take it to anyone\nthank you for your understanding\nFinnwinch📎\n\n" ) end
-end
-hook.Add("GS_Version", "GS get last update", GetLastUpdate)
-hook.Add("GS_Console", "GS Console Message Color", ConsoleMessage)
-*/
+
+hook.Add("Message Console GS", "GS Console Message Color", function(self)
+    HeadAddons(self)
+    ConfigAddonsListe(self)
+    UpdateLastListe(self)
+    if self.warning then 
+        MsgC( Color( 255, 153, 0), "\n[Disclaimer]\nthis addons is designed for humorous purposes only with dark humor, please don't take it to anyone\nthank you for your understanding\nFinnwinch📎\n\n" ) 
+    end
+end)

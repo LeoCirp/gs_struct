@@ -9,10 +9,6 @@ function depandanceGM()
         return 
     end
     hook.Add("PostGamemodeLoaded","buiderWait",function()
-        include("cfg.lua")
-        AddCSLuaFile("cfg.lua")
-        include("update.lua")
-        AddCSLuaFile("update.lua")
         if SERVER then
             hook.Call("GS_Console", nil, self)
         end
@@ -24,7 +20,6 @@ function GSaddons.new( name_of_projet )
     self.main = name_of_projet
     self.cfg = {}
     self.upt = {}
-    depandanceGM()
     return self
 end
 
@@ -59,6 +54,13 @@ function GSaddons:GetLastUPT()
     return self.upt[last]
 end
 
+function GSaddons:GetLastNumberUPT()
+    for k in pairs(self.upt) do
+        last = k
+    end
+    return last
+end
+
 function GSaddons:GetCFG()
     env = ""
     for k,v in pairs(self.cfg) do 
@@ -70,6 +72,25 @@ end
 function GSaddons:GetSpecificCFG(Index)
     return self.cfg[Index]
 end
-hook.Add("GS_Projet", "Create new addon", function(name)
+
+function GSaddons:Warning()
+    self.warning = true
+end
+
+
+hook.Add("Constructeur Projet GS", "Create new addon", function(name)
     return GSaddons.new(name)
+end)
+hook.Add("Dependance GS","call force file",function()
+    include("cfg.lua")
+    include("update.lua")
+end)
+hook.Add("Dependance GM","call restrictions abour gmod",function(self)
+    if not (file.Exists("cfg.lua","lua") || file.Exists("update.lua","lua")) then
+        MsgC( Color( 255, 0, 0), "Erreur : " )
+        MsgC( Color( 140, 0, 255), "Need more file (cfg or update) " )
+        MsgC( Color( 0, 255, 0), self.main.."\n" )
+        return false
+    end
+    return true
 end)
