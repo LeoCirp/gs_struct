@@ -1,20 +1,6 @@
 local GSaddons = {}
 GSaddons.__index = GSaddons
 
-function depandanceGM()
-    if not (file.Exists("cfg.lua","lua") || file.Exists("update.lua","lua")) then
-        MsgC( Color( 255, 0, 0), "Erreur : " )
-        MsgC( Color( 140, 0, 255), "Need more file (cfg or update) " )
-        MsgC( Color( 0, 255, 0), self.main.."\n" )
-        return 
-    end
-    hook.Add("PostGamemodeLoaded","buiderWait",function()
-        if SERVER then
-            hook.Call("GS_Console", nil, self)
-        end
-    end)
-end
-
 function GSaddons.new( name_of_projet )
     local self = setmetatable( {}, GSaddons )
     self.main = name_of_projet
@@ -75,6 +61,10 @@ end
 
 function GSaddons:Warning()
     self.warning = true
+end
+
+function GSaddons:SkipOnlySvSide()
+    self.skipSV = true
 end
 
 

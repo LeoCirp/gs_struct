@@ -43,10 +43,21 @@ local function UpdateLastListe(Objet)
 end
 
 hook.Add("Message Console GS", "GS Console Message Color", function(self)
-    HeadAddons(self)
-    ConfigAddonsListe(self)
-    UpdateLastListe(self)
-    if self.warning then 
-        MsgC( Color( 255, 153, 0), "\n[Disclaimer]\nthis addons is designed for humorous purposes only with dark humor, please don't take it to anyone\nthank you for your understanding\nFinnwinch📎\n\n" ) 
+    if self.skipSV then
+        HeadAddons(self)
+        ConfigAddonsListe(self)
+        UpdateLastListe(self)
+        if self.warning then 
+            MsgC( Color( 255, 153, 0), "\n[Disclaimer]\nthis addons is designed for humorous purposes only with dark humor, please don't take it to anyone\nthank you for your understanding\nFinnwinch📎\n\n" ) 
+        end
+    else
+        if SERVER then
+            HeadAddons(self)
+            ConfigAddonsListe(self)
+            UpdateLastListe(self)
+            if self.warning then 
+                MsgC( Color( 255, 153, 0), "\n[Disclaimer]\nthis addons is designed for humorous purposes only with dark humor, please don't take it to anyone\nthank you for your understanding\nFinnwinch📎\n\n" ) 
+            end
+        end
     end
 end)
